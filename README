@@ -1,153 +1,66 @@
-****
-TODO
-
-Validar as entidades - Ok
-Inclusao de objetos - Ok 
-Alteracao - Ok
-Exclusao logica - Ok 
-Listagem sem parametros -  Ok
-Consulta parametrizada - Ok
-Validar a estrutura - Ok
-Buscar apenas itens ativos - Ok
-Colocar enums para o inicio da consulta - Ok
+Repository
+----------
 
 
-Lancar excecao no Keeper - Ok
-
-Documentar o Utils.
-Estudar o Arquilian
-
-Consulta by Google.
-Reescrever Readme.
-Documentar o codigo.
-Traduzir mensagens de erro.
-
-
-Seeker s = new Seeker();
-List<X> l = s.seekAll(X.class) -- OK
-
-List<X> l = s.seekByExample(X.class, object); -- OK
-X x = s.seekOne(X.class) -- OK
-Long qtde = s.count(X.class) -- OK
-
-
-Proposicoes:
-AND(new Equals(...), new Between(...)) -- OK
-OR(new Equals(...), new Between(...)) -- OK
-NOT(...) -- OK
-ORDERBY -- OK
-
-Modificar o Like -- OK
-
-Lancar excecao JPQL - Ok
-
-
-
-
-Proposicao composta nao tem order by. -- OK
-
-
-
-OK daqui...
-BETWEEN
-EQUALS
-NOTEQUALS
-GREATER
-GREATEREQUALS
-LESSER
-LESSEREQUALS
-ISNULL
-ISNOTNULL
-LIKE
-LIKESTART
-LIKEEND
-IN
-NOTIN
-... até aqui.
-
-Testar:
-Seeker s = new Seeker();
-s.searchAll(Carro.class);
-s.searchAll(Moto.class);
-s.searchAll(Bicicleta.class);
-
-
-
-
-
-****
-
-RepositoryJPA
+O que é isso?
 -------------
-This project intends to be a generic repository for JPA instances. 
-
-It isolates the developer from knowing the databases and transactions and criterias.
+Este projeto oferece acesso as instancias das entidades de uma aplicacao armazenadas em um banco de dados. 
 
 
-Usage
------
-Keeper k = new Keeper();
-k.persist(instance);
-k.remove(instance);
-k.remove(instance, RemoveEnum.LOGICAL)
-k.remove(instance, RemoveEnum.PHYSICAL)
-
-Seeker s = new Seeker();
-s.giveme(ALL/SINGLE, X.class);
-s.whose(new Equals("field", value));
-s.go();
-
-
-Requirements
+Documentacao
 ------------
-The entities have to fulfill some requirements before persist. 
+As principais funcionalidades deste projeto sao:
 
-1) It must have an @Entity.
-2) It must implements Serializable.
-3) It must have a Long id field, annotated with @Id.
-4) It must have an Integer version field, annotated with @Version.
-5) It must have a Boolean active field (for logical removal).
-6) It must have a public constructor without arguments (or none, if there aren't any other constructors).
-7) It must have an Equals and a HashCode methods.
+- Manter as instancias das entidades. Para isso, deve ser definido um arquivo /META-INF/persistence.xml conforme a especificacao JPA 2.
 
-There is an example:
+ Para uso dessa funcionalidade em uma aplicacao, as entidades devem seguir estas regras:
 
-@Entity
-public class BasicEntity implements Serializable {
-	
-	@Id
-	private Long id;
-	
-	@Version
-	private Integer version;
-	
-	private Boolean active;
-	
-	public Entidade(){
-	}
+ # A classe deve estar anotada com @Entity.
+ # A classe deve implementar a interface Serializable.
+ # A classe deve ter um atributo "id" do tipo Long e anotado com @Id.
+ # A classe deve ter um atributo "version" do tipo Integer e anotado com @Version.
+ # A classe deve ter um atributo "active" do tipo Boolean.
+ # A classe deve ter um construtor publico padrao sem argumentos, ou nenhum se nao houver outros construtores.
+ # A classe deve sobrescrever os metodos "equals()" e "hashCode()".
 
-	@Override
-	public boolean equals(Object obj) {
-		return super.equals(obj);
-	}
+ Exemplos:
+ Keeper k = new Keeper();
+ k.persist(instance);
+ k.remove(instance);
+ k.remove(instance, RemoveEnum.LOGICAL)
+ k.remove(instance, RemoveEnum.PHYSICAL)
 
-	@Override
-	public int hashCode() {
-		return super.hashCode();
-	}
-	
-}
+- Recuperar as instancias das entidades. Para isso, e necessario definir a entidade e o perfil dessas instancias. Cada perfil deve ser definido por proposicoes.
 
-Development Environment
------------ -----------
-Eclipse
-IvyDE
-JPA (Hibernate)
-CDI (Weld)
-RepositoryJPA
+ Exemplos:
+ Seeker s = new Seeker();
+ List<X> list = s.seekAll(X.class);
+ List<X> list = s.seekAll(X.class, new Equals("id", 1));
+ X x = s.seekOne(X.class, new Equals("id", 1));
+ Long qtd = s.count(X.class);
+ List<X> list = s.seekByExample(instance);
 
-JUnit
-Mockito
-HSQLDB
+Para mais detalhes, consulte o projeto de exemplo: RepositoryExample 
 
-It uses ProjectJPA to execute tests
+Especificacoes
+--------------
+JPA 2.0
+CDI
+
+
+Licenca
+-------
+Veja o arquivo LICENSE.
+
+
+Autores 
+-------
+Benedito Barbosa Ribeiro Neto
+Christian Linhares Peixoto
+Mauricio da Silva Marinho
+
+
+Contato
+-------
+atendimento@brasilti.com.br
+

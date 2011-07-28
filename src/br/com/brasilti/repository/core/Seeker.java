@@ -1,3 +1,18 @@
+/*
+   Copyright 2011 Benedito Barbosa Ribeiro Neto/Christian Linhares Peixoto/Mauricio da Silva Marinho
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+ */
 package br.com.brasilti.repository.core;
 
 import java.lang.reflect.Field;
@@ -26,6 +41,18 @@ import br.com.brasilti.repository.validators.PropositionValidator;
 import br.com.brasilti.utils.collection.CollectionUtil;
 import br.com.brasilti.utils.reflection.ReflectionUtil;
 
+/**
+ * Retorna as instancias armazenadas em um repositorio. Para isso, e necessario definir a classe e o perfil dessas instancias. Cada perfil deve ser
+ * definido por proposicoes.
+ * 
+ * @author Benedito Barbosa
+ * @author Christian Peixoto
+ * @author Mauricio Marinho
+ * 
+ * @see Proposition
+ * @see QLEnum
+ * 
+ */
 public class Seeker {
 
 	@Inject
@@ -37,18 +64,56 @@ public class Seeker {
 	@Inject
 	private PropositionValidator propositionValidator;
 
+	/**
+	 * Retorna todas as instancias de uma determinada classe armazenadas no repositorio. Para definir o perfil dessas instancias, deve-se usar
+	 * proposicoes.
+	 * 
+	 * @param klass
+	 * @param propositions
+	 * @return Lista de instancias
+	 * @throws RepositoryException
+	 * @see Proposition
+	 */
 	public <T> List<T> seekAll(Class<T> klass, Proposition... propositions) throws RepositoryException {
 		return this.seekAll(klass, CollectionUtil.convert(propositions));
 	}
 
+	/**
+	 * Retorna uma unica instancia de uma determinada classe armazenada no repositorio. Para definir o perfil dessa instancia, deve-se usar
+	 * proposicoes.
+	 * 
+	 * @param klass
+	 * @param propositions
+	 * @return Uma unica instancia
+	 * @throws RepositoryException
+	 * @see Proposition
+	 */
 	public <T> T seekOne(Class<T> klass, Proposition... propositions) throws RepositoryException {
 		return this.seekOne(klass, CollectionUtil.convert(propositions));
 	}
 
+	/**
+	 * Retorna a quantidade de instancias de uma determinada classe armazenadas no repositorio. Para definir o perfil dessas instancias, deve-se usar
+	 * proposicoes.
+	 * 
+	 * @param klass
+	 * @param propositions
+	 * @return Quantidade de instancias
+	 * @throws RepositoryException
+	 * @see Proposition
+	 */
 	public <T> Long count(Class<T> klass, Proposition... propositions) throws RepositoryException {
 		return this.count(klass, CollectionUtil.convert(propositions));
 	}
 
+	/**
+	 * Retorna todas as instancias de uma determinada classe armazenadas no repositorio semelhantes a uma instancia de exemplo.
+	 * 
+	 * @param instance
+	 * @return Lista de instancias
+	 * @throws RepositoryException
+	 *             se a instancia de exemplo for nula
+	 */
 	@SuppressWarnings("unchecked")
 	public <T> List<T> seekByExample(T instance) throws RepositoryException {
 		if (instance == null) {
@@ -87,6 +152,16 @@ public class Seeker {
 
 	}
 
+	/**
+	 * Retorna todas as instancias de uma determinada classe armazenadas no repositorio. Para definir o perfil dessas instancias, deve-se usar
+	 * proposicoes.
+	 * 
+	 * @param klass
+	 * @param propositions
+	 * @return Lista de instancias
+	 * @throws RepositoryException
+	 * @see Proposition
+	 */
 	public <T> List<T> seekAll(Class<T> klass, List<Proposition> propositions) throws RepositoryException {
 		this.validate(klass, propositions);
 
@@ -104,6 +179,16 @@ public class Seeker {
 		}
 	}
 
+	/**
+	 * Retorna uma unica instancia de uma determinada classe armazenada no repositorio. Para definir o perfil dessa instancia, deve-se usar
+	 * proposicoes.
+	 * 
+	 * @param klass
+	 * @param propositions
+	 * @return Uma unica instancia
+	 * @throws RepositoryException
+	 * @see Proposition
+	 */
 	public <T> T seekOne(Class<T> klass, List<Proposition> propositions) throws RepositoryException {
 		this.validate(klass, propositions);
 
@@ -125,6 +210,16 @@ public class Seeker {
 		}
 	}
 
+	/**
+	 * Retorna a quantidade de instancias de uma determinada classe armazenadas no repositorio. Para definir o perfil dessas instancias, deve-se usar
+	 * proposicoes.
+	 * 
+	 * @param klass
+	 * @param propositions
+	 * @return Quantidade de instancias
+	 * @throws RepositoryException
+	 * @see Proposition
+	 */
 	public <T> Long count(Class<T> klass, List<Proposition> propositions) throws RepositoryException {
 		this.validate(klass, propositions);
 
