@@ -100,7 +100,7 @@ public class ClassValidator {
 	 */
 	public void validate(Class<?> klass) throws RepositoryException {
 		if (!ReflectionUtil.isAnnotated(klass, Entity.class)) {
-			throw new RepositoryException(ErrorEnum.ANNOTATION_ENTITY_NOT_FOUND);
+			throw new RepositoryException(ErrorEnum.ANNOTATION_ENTITY_NOT_FOUND, klass.getName());
 		}
 
 		if (!ReflectionUtil.implementz(klass, Serializable.class)) {
@@ -114,7 +114,7 @@ public class ClassValidator {
 		this.validateActive(klass);
 
 		if (!ReflectionUtil.hasConstructor(klass)) {
-			throw new RepositoryException(ErrorEnum.CONSTRUCTOR_NOT_FOUND);
+			throw new RepositoryException(ErrorEnum.CONSTRUCTOR_NOT_FOUND, klass.getName());
 		}
 
 		if (!ReflectionUtil.hasMethod(klass, MethodEnum.EQUALS.getValue())) {

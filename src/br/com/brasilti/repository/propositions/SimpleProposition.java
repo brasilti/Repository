@@ -44,13 +44,13 @@ public abstract class SimpleProposition extends Proposition {
 		builder.append(this.fieldName);
 		builder.append(this.getVerb().getValue());
 		builder.append(":");
-		builder.append(this.fieldName);
+		builder.append(this.fieldName.replace(".", ""));
 		builder.append(String.valueOf(this.hashCode()));
 	}
 
 	@Override
 	public void setParameters(Query query) {
-		query.setParameter(this.fieldName + String.valueOf(this.hashCode()), this.values[0]);
+		query.setParameter(this.fieldName.replace(".", "") + String.valueOf(this.hashCode()), this.values[0]);
 	}
 
 }

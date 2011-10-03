@@ -32,6 +32,7 @@ import br.com.brasilti.utils.reflection.ReflectionUtil;
 public enum RemoveEnum {
 
 	LOGICAL {
+		// TODO Remover os objetos em cascata de forma logica.
 		@Override
 		public <T> void remove(T instance, EntityManager manager) {
 			Field activeField = ReflectionUtil.getField(FieldEnum.ACTIVE.getValue(), instance.getClass());
@@ -52,7 +53,12 @@ public enum RemoveEnum {
 			if (manager.contains(instance)) {
 				manager.remove(instance);
 			} else {
-				manager.remove(manager.merge(instance));
+				Field field = ReflectionUtil.getField(FieldEnum.ID.getValue(), instance.getClass());
+				Object id = ReflectionUtil.get(field, instance);
+
+				if (manager.find(instance.getClass(), id) != null) {
+					manager.remove(manager.merge(instance));
+				}
 			}
 		}
 	};

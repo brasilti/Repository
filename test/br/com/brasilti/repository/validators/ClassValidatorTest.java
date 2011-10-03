@@ -52,7 +52,7 @@ public class ClassValidatorTest {
 		try {
 			this.validator.validate(this.klass);
 		} catch (RepositoryException e) {
-			assertEquals(ErrorEnum.ANNOTATION_ENTITY_NOT_FOUND.getMessage(), e.getMessage());
+			assertEquals(ErrorEnum.ANNOTATION_ENTITY_NOT_FOUND.getMessage(this.klass.getName()), e.getMessage());
 		}
 	}
 
@@ -232,7 +232,7 @@ public class ClassValidatorTest {
 		try {
 			this.validator.validate(this.klass);
 		} catch (RepositoryException e) {
-			assertEquals(ErrorEnum.CONSTRUCTOR_NOT_FOUND.getMessage(), e.getMessage());
+			assertEquals(ErrorEnum.CONSTRUCTOR_NOT_FOUND.getMessage(this.klass.getName()), e.getMessage());
 		}
 	}
 

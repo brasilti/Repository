@@ -1,4 +1,5 @@
 /*
+
    Copyright 2011 Benedito Barbosa Ribeiro Neto/Christian Linhares Peixoto/Mauricio da Silva Marinho
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -68,7 +69,7 @@ public class Keeper {
 		Class<?> klass = instance.getClass();
 		this.validator.validate(klass);
 
-		this.logger.info(InfoEnum.PERSIST.getMessage());
+		this.logger.info(InfoEnum.PERSIST.getMessage(instance));
 
 		Field active = ReflectionUtil.getField(FieldEnum.ACTIVE.getValue(), klass);
 		ReflectionUtil.set(Boolean.TRUE, active, instance);
@@ -119,7 +120,7 @@ public class Keeper {
 
 		this.validator.validate(instance.getClass());
 
-		this.logger.info(InfoEnum.REMOVE.getMessage());
+		this.logger.info(InfoEnum.REMOVE.getMessage(instance));
 
 		try {
 			removeEnum.remove(instance, this.manager);
